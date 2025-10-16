@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 FPS = 60
 
 # Game loop
-engine = GameEngine(WIDTH, HEIGHT)
+engine = GameEngine(SCREEN ,WIDTH, HEIGHT)
 
 def main():
     running = True
@@ -30,6 +30,7 @@ def main():
 
         engine.handle_input()
         engine.update()
+        engine.check_game_over()
         engine.render(SCREEN)
 
         pygame.display.flip()
