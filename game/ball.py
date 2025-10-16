@@ -18,8 +18,11 @@ class Ball:
         self.x += self.velocity_x
         self.y += self.velocity_y
 
+        wall_hit = False
         if self.y <= 0 or self.y + self.height >= self.screen_height:
             self.velocity_y *= -1
+            wall_hit = True
+        return wall_hit
 
     def check_collision(self, player, ai):
         ball_rect = self.rect()
@@ -27,17 +30,18 @@ class Ball:
         ai_rect = ai.rect()
 
         # Player paddle collision
+        paddle_hit = False
         if ball_rect.colliderect(player_rect):
             self.velocity_x *= -1
-            # Push ball out of paddle to prevent overlap
             self.x = player_rect.right
-            # Optional: Add slight random y velocity change for realism
-            # self.velocity_y += random.choice([-1, 1])
+            paddle_hit = True
 
-        # AI paddle collision
         elif ball_rect.colliderect(ai_rect):
             self.velocity_x *= -1
             self.x = ai_rect.left - self.width
+            paddle_hit = True
+            
+        return paddle_hit
 
     def reset(self):
         self.x = self.original_x
